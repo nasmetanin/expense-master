@@ -1,0 +1,178 @@
+/*
+  Global App CSS
+  ----------------------
+  Use this file for styles that should be applied to all components.
+  For example, "font-family" within the "body" selector is a CSS property
+  most apps will want applied to all components.
+
+  Any global CSS variables should also be applied here.
+*/
+
+:root {
+  --accent: #c7d6e6;
+  --accent-hover: #b5c3d2;
+  --danger: #e32720;
+  --container: 960px;
+  --text: #060606;
+  --body: #fff;
+  --font: -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol';
+}
+
+body {
+  background: var(--body);
+  color: var(--text);
+  margin: 0px;
+  padding: 0px;
+  font-family: var(--font);
+}
+
+*, *:before, *:after {
+  box-sizing: border-box;
+  margin: 0px;
+  padding: 0px;
+}
+
+p {
+  margin: 10px 0;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  margin-block-start: 0px;
+  margin-block-end: 0px;
+  padding: 0px;
+}
+
+.btn {
+  background: var(--accent);
+  color: var(--text);
+  border: none;
+  font-size: 13px;
+  font-weight: 700;
+  text-transform: uppercase;
+  padding: 10px 12px;
+  border-radius: 2px;
+  outline: 0;
+  letter-spacing: 0.04em;
+  transition: all 0.15s ease;
+  cursor: pointer;
+}
+
+.btn:hover {
+  background: var(--accent-hover);
+  transform: translateY(1px);
+}
+
+.btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.btn:active,
+button:active {
+  transform: scale(0.95);
+}
+
+button:focus-visible {
+  outline: solid 2px var(--accent-hover);
+}
+
+.btn-delete {
+  background: transparent;
+  box-shadow: none;
+  border: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.15s ease;
+  margin: 0 auto;
+}
+
+.btn-delete img {
+  width: 25px;
+  height: 25px;
+}
+
+picture {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+form {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  height: 100%;
+  width: 100%;
+  margin-bottom: 20px;
+}
+
+form div {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 10px;
+}
+
+form div:last-child {
+  justify-content: flex-end;
+}
+
+form label {
+  font-size: 18px;
+  font-weight: 700;
+  margin-bottom: 10px;
+}
+
+input,
+input[type="month"] {
+  font-family: var(--font);
+  background: transparent;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 3px;
+  font-size: 16px;
+  max-width: 400px;
+  width: 100%;
+  color: var(--text);
+}
+
+form input {
+  margin-bottom: 20px;
+}
+
+form input:focus {
+  outline: none;
+  border-color: var(--accent);
+}
+
+form input[type="submit"] {
+  font-family: var(--font);
+  max-width: 100px;
+}
+
+form input:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+form input[type="number"] {
+  -moz-appearance: textfield;
+  -webkit-appearance: textfield;
+  appearance: textfield;
+}
+
+form input[type="number"]::-webkit-inner-spin-button,
+form input[type="number"]::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+
+[data-theme="dark"] {
+  --accent: #1e364f;
+  --accent-hover: #23292f;
+  --text: #f8f8f8;
+  --body: #151515;
+}

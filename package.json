@@ -1,0 +1,28 @@
+{
+  "name": "expense-master",
+  "private": true,
+  "version": "1.0.0",
+  "description": "A project built with Stencil and Express to manage expenses",
+  "scripts": {
+    "start": "stencil build --dev --watch --serve",
+    "test": "stencil test --spec --e2e",
+    "test.watch": "stencil test --spec --e2e --watchAll",
+    "generate": "stencil generate",
+    "build": "stencil build",
+    "start:server": "node ./server/server.js"
+  },
+  "devDependencies": {
+    "@stencil-community/router": "^1.0.2",
+    "@stencil/core": "2.13.0",
+    "@types/jest": "^27.0.3",
+    "jest": "^27.4.5",
+    "jest-cli": "^27.4.5",
+    "puppeteer": "^10.0.0",
+    "workbox-build": "^4.3.1"
+  },
+  "license": "MIT",
+  "dependencies": {
+    "cors": "^2.8.5",
+    "express": "^4.18.2"
+  }
+}
