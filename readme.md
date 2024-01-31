@@ -15,6 +15,12 @@ This is a simple expense manager app built with StencilJS and Express.
 
 ### Production mode
 
+Install dependencies: 
+
+```bash
+npm intall
+```
+
 To build the app for production, run:
 
 ```bash
