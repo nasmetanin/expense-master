@@ -6,6 +6,7 @@
  */
 import { HTMLStencilElement, JSXBase } from "@stencil/core/internal";
 import { Expense, MenuItem } from "./types/main";
+export { Expense, MenuItem } from "./types/main";
 export namespace Components {
     interface AppChart {
     }
@@ -29,10 +30,21 @@ export namespace Components {
         "size": "default" | "small";
     }
     interface PlaceholderComp {
+        /**
+          * @default false
+         */
         "activeError": boolean;
     }
     interface ThemeSwitch {
     }
+}
+export interface ExpenseFormCustomEvent<T> extends CustomEvent<T> {
+    detail: T;
+    target: HTMLExpenseFormElement;
+}
+export interface ExpenseLineCustomEvent<T> extends CustomEvent<T> {
+    detail: T;
+    target: HTMLExpenseLineElement;
 }
 declare global {
     interface HTMLAppChartElement extends Components.AppChart, HTMLStencilElement {
@@ -53,13 +65,36 @@ declare global {
         prototype: HTMLAppRootElement;
         new (): HTMLAppRootElement;
     };
+    interface HTMLExpenseFormElementEventMap {
+        "expenseUpdate": Expense[];
+    }
     interface HTMLExpenseFormElement extends Components.ExpenseForm, HTMLStencilElement {
+        addEventListener<K extends keyof HTMLExpenseFormElementEventMap>(type: K, listener: (this: HTMLExpenseFormElement, ev: ExpenseFormCustomEvent<HTMLExpenseFormElementEventMap[K]>) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | AddEventListenerOptions): void;
+        removeEventListener<K extends keyof HTMLExpenseFormElementEventMap>(type: K, listener: (this: HTMLExpenseFormElement, ev: ExpenseFormCustomEvent<HTMLExpenseFormElementEventMap[K]>) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | EventListenerOptions): void;
     }
     var HTMLExpenseFormElement: {
         prototype: HTMLExpenseFormElement;
         new (): HTMLExpenseFormElement;
     };
+    interface HTMLExpenseLineElementEventMap {
+        "expenseUpdate": void;
+        "editExpense": number;
+    }
     interface HTMLExpenseLineElement extends Components.ExpenseLine, HTMLStencilElement {
+        addEventListener<K extends keyof HTMLExpenseLineElementEventMap>(type: K, listener: (this: HTMLExpenseLineElement, ev: ExpenseLineCustomEvent<HTMLExpenseLineElementEventMap[K]>) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | AddEventListenerOptions): void;
+        removeEventListener<K extends keyof HTMLExpenseLineElementEventMap>(type: K, listener: (this: HTMLExpenseLineElement, ev: ExpenseLineCustomEvent<HTMLExpenseLineElementEventMap[K]>) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | EventListenerOptions): void;
     }
     var HTMLExpenseLineElement: {
         prototype: HTMLExpenseLineElement;
@@ -110,15 +145,15 @@ declare namespace LocalJSX {
     }
     interface ExpenseForm {
         "editableExpense"?: Expense;
-        "onExpenseUpdate"?: (event: CustomEvent<Expense[]>) => void;
+        "onExpenseUpdate"?: (event: ExpenseFormCustomEvent<Expense[]>) => void;
     }
     interface ExpenseLine {
         "amount"?: number;
         "date"?: string;
         "description"?: string;
         "expenseID"?: number;
-        "onEditExpense"?: (event: CustomEvent<number>) => void;
-        "onExpenseUpdate"?: (event: CustomEvent<void>) => void;
+        "onEditExpense"?: (event: ExpenseLineCustomEvent<number>) => void;
+        "onExpenseUpdate"?: (event: ExpenseLineCustomEvent<void>) => void;
     }
     interface ExpenseMenu {
         "menuItems"?: MenuItem[];
@@ -127,19 +162,36 @@ declare namespace LocalJSX {
         "size"?: "default" | "small";
     }
     interface PlaceholderComp {
+        /**
+          * @default false
+         */
         "activeError"?: boolean;
     }
     interface ThemeSwitch {
     }
+
+    interface ExpenseLineAttributes {
+        "expenseID": number;
+        "amount": number;
+        "date": string;
+        "description": string;
+    }
+    interface LoaderBallAttributes {
+        "size": "default" | "small";
+    }
+    interface PlaceholderCompAttributes {
+        "activeError": boolean;
+    }
+
     interface IntrinsicElements {
         "app-chart": AppChart;
         "app-list": AppList;
         "app-root": AppRoot;
         "expense-form": ExpenseForm;
-        "expense-line": ExpenseLine;
+        "expense-line": Omit<ExpenseLine, keyof ExpenseLineAttributes> & { [K in keyof ExpenseLine & keyof ExpenseLineAttributes]?: ExpenseLine[K] } & { [K in keyof ExpenseLine & keyof ExpenseLineAttributes as `attr:${K}`]?: ExpenseLineAttributes[K] } & { [K in keyof ExpenseLine & keyof ExpenseLineAttributes as `prop:${K}`]?: ExpenseLine[K] };
         "expense-menu": ExpenseMenu;
-        "loader-ball": LoaderBall;
-        "placeholder-comp": PlaceholderComp;
+        "loader-ball": Omit<LoaderBall, keyof LoaderBallAttributes> & { [K in keyof LoaderBall & keyof LoaderBallAttributes]?: LoaderBall[K] } & { [K in keyof LoaderBall & keyof LoaderBallAttributes as `attr:${K}`]?: LoaderBallAttributes[K] } & { [K in keyof LoaderBall & keyof LoaderBallAttributes as `prop:${K}`]?: LoaderBall[K] };
+        "placeholder-comp": Omit<PlaceholderComp, keyof PlaceholderCompAttributes> & { [K in keyof PlaceholderComp & keyof PlaceholderCompAttributes]?: PlaceholderComp[K] } & { [K in keyof PlaceholderComp & keyof PlaceholderCompAttributes as `attr:${K}`]?: PlaceholderCompAttributes[K] } & { [K in keyof PlaceholderComp & keyof PlaceholderCompAttributes as `prop:${K}`]?: PlaceholderComp[K] };
         "theme-switch": ThemeSwitch;
     }
 }
@@ -147,15 +199,15 @@ export { LocalJSX as JSX };
 declare module "@stencil/core" {
     export namespace JSX {
         interface IntrinsicElements {
-            "app-chart": LocalJSX.AppChart & JSXBase.HTMLAttributes<HTMLAppChartElement>;
-            "app-list": LocalJSX.AppList & JSXBase.HTMLAttributes<HTMLAppListElement>;
-            "app-root": LocalJSX.AppRoot & JSXBase.HTMLAttributes<HTMLAppRootElement>;
-            "expense-form": LocalJSX.ExpenseForm & JSXBase.HTMLAttributes<HTMLExpenseFormElement>;
-            "expense-line": LocalJSX.ExpenseLine & JSXBase.HTMLAttributes<HTMLExpenseLineElement>;
-            "expense-menu": LocalJSX.ExpenseMenu & JSXBase.HTMLAttributes<HTMLExpenseMenuElement>;
-            "loader-ball": LocalJSX.LoaderBall & JSXBase.HTMLAttributes<HTMLLoaderBallElement>;
-            "placeholder-comp": LocalJSX.PlaceholderComp & JSXBase.HTMLAttributes<HTMLPlaceholderCompElement>;
-            "theme-switch": LocalJSX.ThemeSwitch & JSXBase.HTMLAttributes<HTMLThemeSwitchElement>;
+            "app-chart": LocalJSX.IntrinsicElements["app-chart"] & JSXBase.HTMLAttributes<HTMLAppChartElement>;
+            "app-list": LocalJSX.IntrinsicElements["app-list"] & JSXBase.HTMLAttributes<HTMLAppListElement>;
+            "app-root": LocalJSX.IntrinsicElements["app-root"] & JSXBase.HTMLAttributes<HTMLAppRootElement>;
+            "expense-form": LocalJSX.IntrinsicElements["expense-form"] & JSXBase.HTMLAttributes<HTMLExpenseFormElement>;
+            "expense-line": LocalJSX.IntrinsicElements["expense-line"] & JSXBase.HTMLAttributes<HTMLExpenseLineElement>;
+            "expense-menu": LocalJSX.IntrinsicElements["expense-menu"] & JSXBase.HTMLAttributes<HTMLExpenseMenuElement>;
+            "loader-ball": LocalJSX.IntrinsicElements["loader-ball"] & JSXBase.HTMLAttributes<HTMLLoaderBallElement>;
+            "placeholder-comp": LocalJSX.IntrinsicElements["placeholder-comp"] & JSXBase.HTMLAttributes<HTMLPlaceholderCompElement>;
+            "theme-switch": LocalJSX.IntrinsicElements["theme-switch"] & JSXBase.HTMLAttributes<HTMLThemeSwitchElement>;
         }
     }
 }
